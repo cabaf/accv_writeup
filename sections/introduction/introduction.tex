@@ -1,2 +1,15 @@
 \section{Introduction}
 \label{introduction}
+
+Human action recognition is a challenging task for computer vision algorithms due to the large variabilities in video data caused by occlusions,
+camera motions, actor and scene appearances, among others. A popular current trend in action recognition methods relies on using local video
+descriptors to represent visual events in videos \cite{Dollar2005, Laptev2005, WangCVPR2011}. These features are usually aggregated into
+a compact representation, most commonly into a bag-of-features (BoF) representation framework \cite{Schuldt2004}. The advantage of this
+simple representation is that it avoids difficult pre-processing steps such as motion segmentation and tracking.
+In the BoF representation, local descriptors are quantized using a pre-computed codebook of visual patterns. This representation combined
+with discriminative classifiers such as support vector machines (SVM), has achieved tremendous success in action recognition in controlled
+scenarios \cite{Blank2005,Schuldt2004}. Due to its simplicity, BoF requires the use of strong, robust and informative features, which can be 
+obtained reliably in such simplified scenarios. However, recent efforts in the collection of more realistic datasets from movies and web site 
+\cite{Kuehne2011,Marszalek2009,Rodriguez2008} represent a challenge for existing methods due to dynamic backgrounds, changes in light 
+conditions and camera motions among other noisy conditions. 
+
