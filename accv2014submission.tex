@@ -1,0 +1,51 @@
+% Updated in May 2014 by Hideo Saito
+% Updated in March 2012 by Yasuyuki Matsushita
+% Updated in April 2002 by Antje Endemann, ...., and in March 2010 by Reinhard Klette
+% Based on CVPR 07 and LNCS style, with modifications by DAF, AZ and elle 2008, AA 2010, ACCV 2010
+
+\documentclass[runningheads]{llncs}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb} % define this before the line numbering.
+\usepackage{ruler}
+\usepackage{color}
+
+%===========================================================
+\begin{document}
+\pagestyle{headings}
+\mainmatter
+
+\def\ACCV14SubNumber{***}  % Insert your submission number here
+
+%===========================================================
+\title{Author Guidelines for ACCV Submission} % Replace with your title
+\titlerunning{ACCV-14 submission ID \ACCV14SubNumber}
+\authorrunning{ACCV-14 submission ID \ACCV14SubNumber}
+
+\author{Anonymous ACCV 2014 submission}
+\institute{Paper ID \ACCV14SubNumber}
+
+\maketitle
+
+%===========================================================
+\begin{abstract}
+The abstract should summarize the contents of the paper and should
+contain at least 70 and at most 300 words. It should be set in 9-point
+font size and should be inset 1.0~cm from the right and left margins.
+\dots
+\end{abstract}
+
+%===========================================================
+\input{sections/introduction/introduction}
+\input{sections/related_work/related_work}
+\input{sections/approach/approach}
+\input{sections/results/results}
+\input{sections/conclusion/conclusion}
+%here would be your acknowledgement (if any) in the final accepted paper
+
+%===========================================================
+\bibliographystyle{splncs}
+\bibliography{egbib}
+
+%this would normally be the end of your paper, but you may also have an appendix
+%within the given limit of number of pages
+\end{document}
