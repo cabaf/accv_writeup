@@ -1,2 +1,43 @@
 \section{Related work}
 \label{related_work}
+
+A large amount of work has studied the problem of human action recognition in videos \cite{Aggarwal2011}. In
+this section we overview some of the most relevant previous work on the topics of video stabilization, video
+feature extraction and action recognition in videos.
+
+A common methodology for video stabilization relies on estimating the global camera motion. One approach for
+this estimation computes sparse visual features \cite{Brown2003,Capel1998, Zoghlami1997} such as corners
+\cite{Censi1999} and estimates a warping matrix between consecutive frames. Others prefer to use all pixels
+in the image to compute an alignment \cite{Lucas1981, Matsushita2006}, but tend to suffer under-fitting due
+to local outliers. An alternative methodology defines a model for camera motion
+\cite{Buehler2001,Hansen1994} and uses multiple frames to estimate its parameters. Unfortunately, there is a
+large variation in camera motions and it is difficult to capture them in a single model. Once the camera
+motion is estimated, most algorithms use it to perform image alignment or warping \cite{szeliski2006image}.
+Unfortunately, warping usually introduces empty image regions in the aligned image. These areas may be
+recovered using impainting methods \cite{Wexler2004} at a high computational cost. Finally, instead of fully
+stabilizing sequences, \cite{Gleicher2008,GrundmannKwatra2011} propose to simulate professional camera
+motion in videos taken with handheld cameras. Unfortunately, not all camera motion is removed and the
+application of these methods to action recognition is limited. Most related to our approach, Park \etal
+\cite{Park2013} recently show how the use of weak video stabilization based on a coarse optical flow can
+lead to improved pedestrian detection in videos. Their goal is to isolate limb motion while cancelling
+pedestrian translation and camera motion. In this paper, we explore the extension of this technique and its
+applicability to feature extraction for action recognition.
+
+In another line of work, researchers have studied the issue of extracting video features for recognition
+that are robust to camera motion \cite{Jain2013,Gross2012,Wu2011a}. When applied to videos with large camera
+movement, traditional video feature extraction methods tend to generate a large number of features that are
+mostly related to the camera motion \cite{Dollar2005, Laptev2005, WangCVPR2011}. In order to overcome this
+issue, Wu \etal \cite{Wu2011a} propose the use of Lagrangian particle trajectories for action description in
+videos acquired with moving cameras. Their method compensates for the global camera motion and only extracts
+features that exhibit motion independent to the camera movement, outperforming traditional feature
+extraction algorithms. Matikainen \etal \cite{Matikainen2009} present a technique for action recognition
+with quantized trajectories of tracked features. More recently, Wang \etal presents a method for action
+recognition using dense sampling of point trajectories \cite{WangCVPR2011}. Their method handles large
+camera motions by limiting the maximum length of tracked trajectories. In spite of their simplicity, these
+dense trajectory features achieved state-of-the-art performance in bench-marking datasets. In order to
+improve upon these dense trajectories, Jain \etal \cite{Jain2013} propose a method to estimate more reliable
+motion features for action recognition. Their method obtains improvements on feature robustness  by first
+decomposing optical flow into dominant and residual motions. Dominant motion is estimated using an affine
+model and subtracted from the computed optical flow to obtain the residual motion. This information is then
+used to compute local motion descriptors. While the method is simple and improves recognition performance,
+residual and dominant motion estimations are not reliable when the dominant motion is related to the actor.
