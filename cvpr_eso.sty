@@ -74,6 +74,13 @@
 %% ===================================================================
 %% \fi
 
+\def\eg{\emph{e.g.~}} \def\Eg{\emph{E.g.~}}
+\def\ie{\emph{i.e.~}} \def\Ie{\emph{I.e.~}}
+\def\cf{\emph{c.f.~}} \def\Cf{\emph{C.f.~}}
+\def\etc{\emph{etc.~}} \def\vs{\emph{vs.~}}
+\def\wrt{w.r.t.~} \def\dof{d.o.f.~}
+\def\etal{\emph{et al.~}}
+
 \newcommand{\@EveryShipout@Hook}{}
 \newcommand{\@EveryShipout@AtNextHook}{}
 \newcommand*{\EveryShipout}[1]
@@ -103,6 +110,9 @@
    \let\@EveryShipout@Org@Shipout\shipout
    \let\shipout\@EveryShipout@Shipout
    }
+
+%%%% Adding some useful macros %%%%
+
 \AtBeginDocument{\@EveryShipout@Init}
 \endinput
 %%
