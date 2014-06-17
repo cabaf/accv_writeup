@@ -1,6 +1,60 @@
 \section{Experimental results}
 \label{results}
 \subsection{Datasets and evaluation protocol}
+We use public datasets and corresponding evaluation protocol proposed by each dataset author.
+
+\textbf{HMDB51} \cite{kuehne2011} includes a large collection of human activities categorized on 51 classes. It collects 6766 videos from different media resources \ie digitized movies, public databases and user generated web video data. We adopt the evaluation protocol proposed by the authors evaluating performance as mean accuracy under three fixed train/test splits.
+
+\textbf{Hollywood2} \cite{marszalek2009} contains a wide number of videos retrieved from 69 different Hollywood movies. It is divided in 12 categories including short actions such as Kiss, Answer Phone and Stand Up. This dataset presents a lot of challenges for action recognition approches due to the several change of camera view point and the unchoreographed action execution. We follow the initial evaluation protocol where videos are splited in a training set of 823 videos a testing set of 884 videos. To measure recognition performance, we compute the mean average precision (mAP) over all dataset 
+classes.
+
+\textbf{Olympic Sports} \cite{niebles2010} consists of 783 YouTube videos of sports related human movements. The recognition performance is measured 
+by the mAP computed over 134 testing sequences. Videos are annotated using Amazon Mechanical Turk as 16 different olympic sports \eg pole vault, springboard and hammer throw.
+
+\textbf{UCF50} \cite{reddy2013} includes 6618 videos of 50 different human actions. This data set is an extension of the YouTube Action dataset (UCF11) which has 11 action categories. This dataset presents several recognition challenges due to large variations in camera motion, cluttered background, viewpoint etc. Action categories are grouped into 25 sets, where each set consists of more than 4 action clips. Recognition performance is measured by applying a leave-one-group-out cross-validation and report the average accuracy over all group splits. 
+
 \subsection{Implementation details}
-\subsection{Impact of background description}
+
+\textbf{Visual descriptors}. Foreground descriptors \ie Trajectory Shape, HOG, HOF, MBHx and MBHy, are computed using a modified implementation of the method presented by \cite{wang2013}. Instead of compensating camera motion using a Homography, we compute a Fundamental Matrix to robustly find inliers matches for warping consecutive frames. To describe the visual contextual appearance, we extract SIFT \cite{lowe2004} on non-foreground regions (See previous section). Moreover, we fit a refined Fundamental Matrix in order to weakly model the camera motion. It is computed using RANSAC from inliers points resulting on the camera compensation step. \\\\
+\textbf{Codebook generation}. We adopt two different approaches: (a) \textit{k}-means, where we learn a partitioning space for each descriptor type and (b) a Gaussian Mixture Model (GMM), where we capture the probability of each descriptor separately. Because of there are a large amount of features we have to sub-sample the visual world. We have noticed the impact of this sub-sampling on recognition performance as observed in Figure \ref{fig:feature_sampling}. We argue that sampling a small amount of features results on poor partitioning of the visual space. Motivated by this analysis, we commonly sample the 5\% of each features for our codebook generation approaches in all datasets. Moreover, we sub-sample features using a spatial clustering of feature points followed by a 1-Nearest Neighbor assignment. \\\\
+\textbf{Feature encoding}. We follow the traditional histogram quantization (VQ) as one of our encoding strategies. Another type of encoding are the recently well-accepted Fisher Vectors (FV) \cite{perronnin2010}. For computing FV we have used the same implementation as provided in \cite{perronnin2010}. \\\\
+\textbf{Normalization}. To make our representations invariant to the number of extracted local descriptors, our encoded vector us further normalized using one or a combination of the following techniques: (a) \textit{l2} normalization \cite{perronnin2010}, (b) power normalization \cite{perronnin2010} and (c) intra-normalization \cite{xwang2013}. \\\\
+\textbf{Framework representation}. We adopt two majors frameworks for action recognition. One of them (BOW), uses \textit{k}-means for computing visual codebooks. Then, features are encoded using the mentioned VQ strategy. Ultimately, we learn a non-linear SVM with $\chi^2$ kernel, combining our features using a multichannel approach as in \cite{zhang2007}:
+\begin{equation}
+K(x_i,x_j)= \exp(-\sum_c {\frac{1}{2\Omega_c} D_c(x_i,x_j)}),
+\label{eq:multichannel}
+\end{equation}
+where $D_c(x_i,x_j)$ is the $\chi^2$ distance for channel $c$, and $\Omega_c$ is the average channel distance (see Table \ref{tab:frameworks}).
+
+\begin{figure*}[t!]
+\begin{center}
+\fbox{\rule{0pt}{1in} \rule{0.9\linewidth}{0pt}}
+\end{center}
+\caption{Effect of feature sub-sampling when generating codebook.}
+\label{fig:feature_sampling}
+\end{figure*}
+
+\begin{table*}[h!]
+\begin{center}
+{
+\begin{tabular}{ l| c c c c c }
+\hline
+& Features & Codebook & Normalization & Classifier \\
+\hline
+KVQ & All & \textit{k}-means & L2 & MCSVM \\
+GFV & All & GMM & L2+PW+IN & LSVM \\
+\hline
+\end{tabular}
+}
+\end{center}
+\caption{Comparing adopted frameworks for action recognition.}
+\label{tab:frameworks}
+\end{table*}
+
+
+
+
+
+
+\subsection{Impact of surrounding features}
 \subsection{Comparison with the state of the art}
