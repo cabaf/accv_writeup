@@ -18,13 +18,13 @@ by the mAP computed over 134 testing sequences. Videos are annotated using Amazo
 \textbf{Visual descriptors}. Foreground descriptors \ie Trajectory Shape, HOG, HOF, MBHx and MBHy, are computed using a modified implementation of the method presented by \cite{wang2013}. Instead of compensating camera motion using a Homography, we compute a Fundamental Matrix to robustly find inliers matches for warping consecutive frames. To describe the visual contextual appearance, we extract SIFT \cite{lowe2004} on non-foreground regions (See previous section). Moreover, we fit a refined Fundamental Matrix in order to weakly model the camera motion. It is computed using RANSAC from inliers points resulting on the camera compensation step. \\\\
 \textbf{Codebook generation}. We adopt two different approaches: (a) \textit{k}-means, where we learn a partitioning space for each descriptor type and (b) a Gaussian Mixture Model (GMM), where we capture the probability of each descriptor separately. Because of there are a large amount of features we have to sub-sample the visual world. We have noticed the impact of this sub-sampling on recognition performance as observed in Figure \ref{fig:feature_sampling}. We argue that sampling a small amount of features results on poor partitioning of the visual space. Motivated by this analysis, we commonly sample the 5\% of each features for our codebook generation approaches in all datasets. Moreover, we sub-sample features using a spatial clustering of feature points followed by a 1-Nearest Neighbor assignment. \\\\
 \textbf{Feature encoding}. We follow the traditional histogram quantization (VQ) as one of our encoding strategies. Another type of encoding are the recently well-accepted Fisher Vectors (FV) \cite{perronnin2010}. For computing FV we have used the same implementation as provided in \cite{perronnin2010}. \\\\
-\textbf{Normalization}. To make our representations invariant to the number of extracted local descriptors, our encoded vector us further normalized using one or a combination of the following techniques: (a) \textit{l2} normalization \cite{perronnin2010}, (b) power normalization \cite{perronnin2010} and (c) intra-normalization \cite{xwang2013}. \\\\
-\textbf{Framework representation}. We adopt two majors frameworks for action recognition. One of them (BOW), uses \textit{k}-means for computing visual codebooks. Then, features are encoded using the mentioned VQ strategy. Ultimately, we learn a non-linear SVM with $\chi^2$ kernel, combining our features using a multichannel approach as in \cite{zhang2007}:
+\textbf{Normalization}. To make our representations invariant to the number of extracted local descriptors, our encoded vector us further normalized using one or a combination of the following techniques: (a) \textit{l2} normalization (L2) \cite{perronnin2010}, (b) power normalization (PW) \cite{perronnin2010} and (c) intra-normalization (IN) \cite{xwang2013}. \\\\
+\textbf{Framework representation}. We adopt two majors frameworks for action recognition. One of them (KVQ), uses \textit{k}-means for computing visual codebooks. Then, features are encoded using the mentioned VQ strategy. Ultimately, we learn a non-linear SVM with $\chi^2$ kernel (MCSVM), combining our features using a multichannel approach as in \cite{zhang2007}:
 \begin{equation}
 K(x_i,x_j)= \exp(-\sum_c {\frac{1}{2\Omega_c} D_c(x_i,x_j)}),
 \label{eq:multichannel}
 \end{equation}
-where $D_c(x_i,x_j)$ is the $\chi^2$ distance for channel $c$, and $\Omega_c$ is the average channel distance (see Table \ref{tab:frameworks}).
+where $D_c(x_i,x_j)$ is the $\chi^2$ distance for channel $c$, and $\Omega_c$ is the average channel distance (see Table \ref{tab:frameworks}). Moreover, we implement a framework learning a codebook using a GMM, then features are encoded with FV. In this case, we apply three normalization strategies, L2, PW and IN as proposed in \cite{xwang2013}. Finally, normalized channels are concatenated and action models are learned with a linear SVM. We called this second framework as GFV.
 
 \begin{figure*}[t!]
 \begin{center}
@@ -35,6 +35,7 @@ where $D_c(x_i,x_j)$ is the $\chi^2$ distance for channel $c$, and $\Omega_c$ is
 \end{figure*}
 
 \begin{table*}[h!]
+\caption{Comparison of adopted frameworks for action recognition.}
 \begin{center}
 {
 \begin{tabular}{ l| c c c c c }
@@ -47,14 +48,32 @@ GFV & All & GMM & L2+PW+IN & LSVM \\
 \end{tabular}
 }
 \end{center}
-\caption{Comparing adopted frameworks for action recognition.}
 \label{tab:frameworks}
 \end{table*}
 
-
-
-
-
-
 \subsection{Impact of surrounding features}
 \subsection{Comparison with the state of the art}
+\begin{table*}
+\caption{Comparison with the state-of-the-art on HMDB51, Hollywood2, Olympic Sports and UCF50 datasets.}
+\begin{center}
+{
+\begin{tabular}{ |l| c c c c| }
+\hline
+Approach $\downarrow$ & HMDB51 & Hollywood2 & Olympic Sports & UCF50 \\
+\hline
+Jiang \etal \cite{jiang2012} & 40.7\% & 59.5\% & 80.6 & - \\
+Jain \etal \cite{jain2013} & 52.1\% & 62.5\% & 83.2 & - \\
+Wang \etal \cite{wang2013} non-HD & 55.9\% & 63.0\% & 90.2\% & 90.5\% \\
+Wang \etal \cite{wang2013} HD & 57.2\% & \textbf{64.3\%} & 91.1\% & 91.2\% \\
+\hline
+\multicolumn{5}{|c|}{\textit{Our methods}} \\
+\hline
+Baseline $\rightarrow$ Foreground  & 56.5\% & 62.4\% & 90.4\% & 91.9\% \\
+Foreground + Context Appearance & \textbf{59.2\%} & 63.5\% & \textbf{91.6\%} & \textbf{93.3\%} \\
+Foreground + Surrounding  & \textbf{57.9\%} & \textbf{64.1\%} & \textbf{92.5\%} & \textbf{93.8\%} \\
+\hline
+\end{tabular}
+
+}
+\end{center}
+\end{table*}
