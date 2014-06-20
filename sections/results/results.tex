@@ -12,21 +12,6 @@ We use four public datasets \cite{kuehne2011, marszalek2009, niebles2010, reddy2
 
 \textbf{UCF50} \cite{reddy2013} includes 6618 videos of 50 different human actions.  This dataset presents several recognition challenges due to large variations in camera motion, cluttered background, viewpoint, etc. Action categories are grouped into 25 sets, where each set consists of more than 4 action clips. Recognition performance is measured by applying a leave-one-group-out cross-validation and average accuracy over all group splits is reported. 
 
-\subsection{Implementation details}
-
-\textbf{Visual descriptors}. Our better understanding of actions splits visual descriptors in two different groups. Next, we briefly give a detailed explanation of how these descriptors are extracted.
-(a) \textbf{Foreground descriptors} \ie Trajectory Shape, HOG, HOF, and MBH are computed over dense trajectories using a modified implementation on \cite{wang2013}. To find inliers matches for compensating camera motion, we employ a Fundamental Matrix instead of computing a Homography. In the following, these foreground descriptors are computed with the same parameters as in \cite{wang2013}.
-(b) \textbf{Contextual scene descriptors}. SIFT descriptors are extracted in a dense fashion, filtering out those regions related with the foreground motion. Due to the extensive computation demand, we sample 10\% of the frame sequence.
-(c) \textbf{Contextual camera motion descriptors}. CamMotion (Fundamental Matrix) is computed using RANSAC for all background point matches through all consecutive video frames.\\\\
-\textbf{Codebook generation}. We generate the visual codebook in two different ways: (a) using \textbf{\textit{k}-means}, where we cluster the visual space, or, (b) using a \textbf{Gaussian Mixture Model (GMM)}, which captures a probability distribution over feature space. In both cases, a codebook is computed for each descriptor separately. Because of trajectory points methodologies produces a large amount of features resulting in intractable codebook computations, it is necessary to sub-sample the features extracted in the training examples for the purpose of codebook generation. In order to establish a trade-off between computation cost and recognition performance, we study the effect of the number of sampled features for computing a visual codebook, as observed in Figure \ref{fig:feature_sampling}. This experiment includes results in two different datasets using \textit{k}-means to form the visual dictionary. Additionally, we employ a spatial clustering sampling \JC{do you explain this sampling anywhere in the text?} which shows a better performance compared to the uniform sampling. In the following, we employ approximately 5 millions of feature points (~8GB RAM required per descriptor) sampled with a spatial clustering to form visual codebooks.\\\\
-\textbf{Feature encoding} is performed under two different methodologies: (a) following the traditional histogram quantization (VQ), or, (b) applying the recently introduced Fisher vectors \cite{perronnin2010}. Different types of \textbf{Normalization} are performed to make feature vectors more robust: (a) \textit{l2} normalization (L2) \cite{perronnin2010}, (b) power normalization (PW) \cite{perronnin2010} and (c) intra-normalization (IN) \cite{xwang2013}. \\\\
-\textbf{Framework representation}. We adopt two majors frameworks for action recognition. One of them follows the Bag of Features (BoF) paradigm, using \textit{k}-means for computing visual codebook, encoding features using VQ and L2 normalization, and finally learning action models with a non-linear SVM with $\chi^2$ kernel within a multichannel approach (MCSVM) as in \cite{zhang2007}:
-\begin{equation}
-K(x_i,x_j)= \exp(-\sum_c {\frac{1}{2\Omega_c} D_c(x_i,x_j)}),
-\label{eq:multichannel}
-\end{equation}
-where $D_c(x_i,x_j)$ is the $\chi^2$ distance for channel $c$, and $\Omega_c$ is the average channel distance (see Table \JC{which table?}. Moreover, we implement a more robust framework (Fisher vectors) learning a codebook using a GMM. Consequently, we encode the feature vectors using the Fisher vectors. In this case, we apply three normalization strategies, L2, PW and IN as proposed in \cite{xwang2013}. Finally, normalized channels are concatenated and action models are learned within a linear SVM (LSVM). Described approaches are summarized in Table \ref{tab:frameworks}.
-
 %%%%%%%%%%%%%%%%% Figure: Effect of sampling %%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \begin{center}
@@ -36,25 +21,6 @@ where $D_c(x_i,x_j)$ is the $\chi^2$ distance for channel $c$, and $\Omega_c$ is
 \caption{Effect of feature sub-sampling when generating codebook.}
 \label{fig:feature_sampling}
 \end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%% Table: Frameworks comparison %%%%%%%%%%%%%%%%%%%
-\begin{table*}[h!]
-\caption{Comparison of adopted frameworks for action recognition.}
-\begin{center}
-{
-\begin{tabular}{ l| c c c c c }
-\hline
-Representation $\downarrow$ & Codebook & Encoding & Normalization & Classifier \\
-\hline
-Bag of Features & \textit{k}-means & VQ & L2 & MCSVM \\
-Fisher vectors & GMM & Fisher vectors & L2+PW+IN & LSVM \\
-\hline
-\end{tabular}
-}
-\end{center}
-\label{tab:frameworks}
-\end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Impact of contextual features}
