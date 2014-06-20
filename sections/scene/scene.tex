@@ -41,3 +41,12 @@ After estimating all pairwise fundamental matrices, we encode the camera motion 
 
 \subsection{Background/Context Appearance}
 Human actions could be recognized by a set of cues. Beyond local motion and appearance properties of an action, the context in which an action is performed is a critical component to recognize actions. For example, a 'springboard' action can only be executed if there is a pool, which has distinctive appearance properties. This motivates us to encode the visual appearance of the static scene. Background/context appearance is encoded using SIFT descriptors \cite{lowe2004} around trajectory points associated with the background. We detect SIFT keypoints in a dense manner and then filter out those that fall within the union of foreground trajectories. Context appearance focuses more on the scenario itself, as observed in Figure \ref{fig:approach}. \B{elaborate on this example and the relationship to context} Unlike other methods that encode context holistically in a video \cite{marszalek2009}, separating the background/context from the foreground produces a more reliable and robust context descriptor.
+
+\begin{figure*}[t!]
+\begin{center}
+%\fbox{\rule{0pt}{3in} \rule{0.9\linewidth}{0pt}}
+\includegraphics[width=0.98\linewidth]{fig/sift.png}
+\end{center}
+\caption{Each row presents five different thumbnails taken from different videos of UCF50 dataset. \textbf{Top} row corresponds to rowing's examples. As observed all thumbnails share distinct background appearance \ie in all water is present and also in the majority there is a common landmark. In the \textbf{Middle} row, different billiard examples are depicted. Billard table and also the indoor naturalness of the action, enables context appearance to capture critical information about the action. Finally, \textbf{Bottom} row exposes examples from the drumming category. As noticed, all of the examples share a lot of visual cues that mostly are avoided if only foreground features are used.}
+\label{fig:sift_example}
+\end{figure*}
