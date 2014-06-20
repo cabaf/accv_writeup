@@ -46,7 +46,7 @@ where $D_c(x_i,x_j)$ is the $\chi^2$ distance for channel $c$, and $\Omega_c$ is
 \hline
 Representation $\downarrow$ & Codebook & Encoding & Normalization & Classifier \\
 \hline
-Bag of words & \textit{k}-means & VQ & L2 & MCSVM \\
+Bag of Features & \textit{k}-means & VQ & L2 & MCSVM \\
 Fisher vectors & GMM & Fisher vectors & L2+PW+IN & LSVM \\
 \hline
 \end{tabular}
@@ -57,12 +57,11 @@ Fisher vectors & GMM & Fisher vectors & L2+PW+IN & LSVM \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Impact of contextual features}
-We conduct further experiments to measure the  contribution of our context features. Baseline corresponds to use only Foreground features for describing actions. Per-descriptor performances are compared to that established baseline. Also, we investigate the effect of combining contextual features with Foreground cues. As well, contextual features performance is evaluated under two action recognition representations \ie Bag of Features and Fisher vectors. Below, we present an analysis of obtained results.
-
-\textbf{Representation}. As suggested in recent works \cite{perronnin2010, wang2013, xwang2013} Fisher vectors provides a boosted performance compared to traditional Bag of Features representation. Our experiments shows that this improvements in performance are also included in our contextual features descriptors. However, we note that Fisher vectors representation is less important with our CamMotion descriptor due to it is a low dimensional vector. Even so, Fisher vectors are used for following analysis.\\\\
-\textbf{Foreground-background}. As described in Section \ref{scene}, we perform a weak separation of background and foreground feature points. We measure the effect on performance of this separation for our contextual features. We note that this type of weak segmentation provides a significant boost in performance, as observed in Table \ref{tab:segmentation}. When feature points are localized on the background SIFT features capture useful information to encode the scene. Our CamMotion descriptor exhibit a poor performance when the fundamental matrix is computed with all matches points on the video. In that case fundamental matrix includes a large amount of outliers that correspond to matches from foreground regions. This problem is alleviated computing the global descriptor on the background feature points. \\\\
-\textbf{Context appearance}. While by itself SIFT achieves a discrete performance, it produces notable improvements when combined with foreground descriptors. Table \ref{tab:features} reports obtained results on four benchmark datasets. Interestingly, we note that SIFT description produce better results in Olympic Sports and UCF50. This can be attributed to type of activities depicted on these datasets, which almost contains sport related activities.\\\\
-\textbf{Camera motion} descriptor allows to add important cues for recognition in some datasets. While it provides a less improvement compared to our context appearance features, also shows a significant improvement when used on user-generated datasets. For example, in Olympic Sports using this low level descriptor, we boost the performance on ~2.2\%. Moreover, we evidence a consistent small contribution over all datasets.
+We conduct further experiments to measure the  contribution of our context features. Baseline corresponds to use only Foreground features for describing actions. Per-descriptor performances are compared to that established baseline. Also, we investigate the effect of combining contextual features with Foreground cues. As well, contextual features performance is evaluated under two action recognition representations \ie Bag of Features and Fisher vectors. Below, we present an analysis of obtained results.\\\\
+\textbf{Representation}. As suggested in recent works \cite{perronnin2010, wang2013, xwang2013} Fisher vectors provides a boosted performance compared to traditional Bag of Feature representations. We found in our experiments that Fisher vectors also boost our contextual descriptors performance, as presented in Table \ref{tab:features}. However, we note that using Fisher vectors is less important with our CamMotion descriptor due to its low dimensionality. Even so, Fisher vectors are used for following analysis.\\\\
+\textbf{Foreground-background}. As described in Section \ref{scene}, we perform a weak separation between background and foreground feature points. We measure the effect on performance of this separation in our contextual features. We note that this type of weak segmentation provides a significant boost in performance, as observed in Table \ref{tab:segmentation}. When feature points are localized on the background, SIFT features focuses on the scene appearance avoiding information of actors and foreground objects. The gain over computing SIFT over all features points is as follow: +0.3\% for HMDB51, +4.2\% for Hollywood2, +5.2\% for Olympics and +3.9\% for UCF50. The same behavior is observed with our CamMotion descriptor. Performance is boosted in all datasets when Fundamental Matrix is computed based on background tracks.\\\\
+\textbf{Context appearance}. While by itself SIFT achieves a discrete performance, it produces notable improvements when combined with foreground descriptors. As Table \ref{tab:features} reports, performance is significantly improved over all datasets. Interestingly, we note that SIFT descriptor produces higher improvements in HMDB51 and UCF50 \ie +2.7\% and +2.4\% respectively.\\\\
+\textbf{Camera motion}. Experiment results evidences that action recognition is noticeably improved when a global motion is incorporated to Foreground features. Our CamMotion provides slightly lower contributions in performance than the SIFT descriptor. We observe a significantly contribution over all datasets except on HMDB51 where recognition performance decrease. We attribute this negative effect to that HMDB51 presents several videos containing a shaking camera motion over all classes. This unable our CamMotion to capture discriminative cues over action categories. 
 
 %%%%%%%%%%%%% Table: Effect of selected points %%%%%%%%%%%%%
 \begin{table*}
@@ -101,7 +100,7 @@ CamMotion & \checkmark & \checkmark & 12.9\% & 18.7\% & 21.8\% & 17.2\% \\
 \multicolumn{3}{|c|}{Features} & \multicolumn{4}{|c|}{Datasets} \\
 Foreground & SIFT & CamMotion & HMDB51 & Hollywood2 & Olympics & UCF50 \\
 \hline
-\multicolumn{7}{|c|}{Framework: Bag of words} \\
+\multicolumn{7}{|c|}{Framework: Bag of Features} \\
 \hline
 \checkmark & & & 51.2\% & 60.1\% & 79.8\% & 85.9\% \\
 & \checkmark & & 19.5\% & 28.7\% & 36.4\% & 45.7\% \\
@@ -130,9 +129,7 @@ Foreground & SIFT & CamMotion & HMDB51 & Hollywood2 & Olympics & UCF50 \\
 
 
 \subsection{Comparison with the state of the art}
-We compare our method with recent works targeting the same application scenario and 
-similar representations \ie works that uses dense trajectory points to represent video sequences \cite{wang2013, jiang2012, jain2013}. We also present results for our own implementation of \cite{wang2013}, which correspond to our baseline (Foreground). It is important to enhance that we achieve a slightly lower performance in our i mplementation of \cite{wang2013}. Experimental results show strong evidence of the contribution of our contextual features. We achieve state-of-the-art in all evaluated datasets, except in Hollywood 2 (see Table \ref{tab:stateofart}. We argue that our approach not include Human Detection (HD) for computing the Improved Trajectories and we expect further improvements if this strategy is included.  
-
+We set side by side our method with recent works addressing the same application within similar representations \ie works that uses dense trajectory points to represent video sequences \cite{wang2013, jiang2012, jain2013} in Table \ref{tab:stateofart}. We also present results for our own implementation of \cite{wang2013}, which correspond to our baseline (Foreground). The gain over the recent paper \cite{wang2013}, which reports the best performance in the literature, is as follow: \textbf{+2\%} for HMDB51, \textbf{+1.4\%} for Olympic Sports and \textbf{2.6\%} for UCF50. We also achieves a comparable performance on Hollywood2 dataset with only 0.2\% less in the mAP value. Since Human Detection (HD) is not included in our trajectory extraction stage, a more direct comparison its the non-HD approach of Wang \etal \cite{wang2013}. In that case, our method outperform their improved trajectories in \textbf{3.3\%} for HMDB51, \textbf{1.1\%} for Hollywood2, \textbf{2.3\%} for Olympic Sports and \textbf{3.3\%} for UCF50.
 
 %%%%%%%%%%%%%% Table: State-of-the-art %%%%%%%%%%%%%%%%%%%%%%
 \begin{table*}
@@ -148,7 +145,7 @@ Jain \etal \cite{jain2013} & 52.1\% & 62.5\% & 83.2 & - \\
 Wang \etal \cite{wang2013} non-HD & 55.9\% & 63.0\% & 90.2\% & 90.5\% \\
 Wang \etal \cite{wang2013} HD & 57.2\% & \textbf{64.3\%} & 91.1\% & 91.2\% \\
 \hline
-\multicolumn{5}{|c|}{\textit{Our methods with FV}} \\
+\multicolumn{5}{|c|}{\textit{Our methods with Fisher vectors}} \\
 \hline
 Baseline (Foreground) & 56.5\% & 62.4\% & 90.4\% & 90.9\% \\
 Foreground + SIFT & \textbf{59.2\%} & 63.5\% & \textbf{91.6\%} & \textbf{93.3\%} \\
