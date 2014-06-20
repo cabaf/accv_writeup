@@ -65,7 +65,8 @@ We conduct further experiments to measure the  contribution of our context featu
 
 %%%%%%%%%%%%% Table: Effect of selected points %%%%%%%%%%%%%
 \begin{table*}
-\caption{Effect of compute contextual features on background points.}
+\caption{Effect of separating background feature points on contextual features. Experimental results consistently show that contextual features are better captured on background regions. As observed, SIFT and CamMotion descriptors tend to be more 
+discriminative when they are extracted from non-foreground feature points.}
 \begin{center}
 {
 \begin{tabular}{|c|c c|c c c c|}
@@ -90,7 +91,7 @@ CamMotion & \checkmark & \checkmark & 12.9\% & 18.7\% & 21.8\% & 17.2\% \\
 
 %%%%%%%%%%%%%% Table: Feature analysis %%%%%%%%%%%%%%%%%%%%%
 \begin{table*}
-\caption{Impact of our contextual features on recognition performance.}
+\caption{Impact of our contextual features in recognition performance. Bag of Features generally performs poor than Fisher vectors. Both SIFT and CamMotion show important improvements in performance when they are combined with foreground descriptors.}
 \begin{center}
 {
 \def\arraystretch{1.11}
@@ -133,7 +134,7 @@ We set side by side our method with recent works addressing the same application
 
 %%%%%%%%%%%%%% Table: State-of-the-art %%%%%%%%%%%%%%%%%%%%%%
 \begin{table*}
-\caption{Comparison with the state-of-the-art on HMDB51, Hollywood2, Olympic Sports and UCF50 datasets.}
+\caption{Comparison with the state-of-the-art on challenging datasets. Our method improves reported results in the state-of-the-art for three different datasets, HMDB51, Olympic Sports and UCF50 and also obtains competitive results for Hollywod2.}
 \begin{center}
 {
 \begin{tabular}{ |l| c c c c| }
