@@ -1,4 +1,14 @@
 \section{Proposed Methodology} \label{scene}
+
+\begin{figure*}[t!]
+\begin{center}
+%\fbox{\rule{0pt}{3in} \rule{0.9\linewidth}{0pt}}
+\includegraphics[width=0.98\linewidth]{fig/pipeline.png}
+\end{center}
+\caption{Pipeline for computing proposed surrounding cues.}
+\label{fig:pipeline}
+\end{figure*}
+
 This section gives a detailed description of our proposed approach for action recognition in video. The methodology in this paper follows the conventional action recognition pipeline. Given a set of labelled videos, a set of features is extracted from each video, represented using visual descriptors, and combined into a single video descriptor, which is used to train a multi-class classifier for recognition. \B{It will be easier to have a pipeline image that shows the different stages of processing: (1) extract dense improved trajectories, (2) foreground/background trajectory separation, (3) compute descriptors for the foreground (BoF on MBH, HOF, etc for each trajectory), the camera motion (BoF on frame-to-frame estimated fundamental matrices), and the context (BoF on the background appearance).}
 
 In this paper, we use dense point trajectories (short tracks of a densely sampled set of pixels in a video \cite{wang2013}) as our primitive features. By estimating frame-to-frame camera motion (fundamental matrix), we separate foreground trajectories corresponding to the action from background ones. Each type of trajectory is represented using a different descriptor. Foreground trajectories are represented using conventional visual properties (e.g. MBH, HOF, HOG, and trajectory shape), while the background appearance is described using SIFT. Foreground and background trajectories are then encoded separately using the BoF framework. Unlike other action recognition methods, we not only use the frame-to-frame camera motion to separate foreground from background, but we also use it to \emph{describe} a video. This is done by encoding all frame-to-frame fundamental matrices in a video using the BoF framework. We use all three descriptors (foreground, background/context, and camera motion) to train a multi-class classifier for recognition. \B{Let's move most of the implementation details from the experiments to here.} In this paper, we argue and show that combining a foreground-only description \cite{wang2013} with additional cues (background/context and camera motion) provides a richer and more discriminative description of actions.
