@@ -12,16 +12,6 @@ We use four public datasets \cite{kuehne2011, marszalek2009, niebles2010, reddy2
 
 \textbf{UCF50} \cite{reddy2013} includes 6618 videos of 50 different human actions.  This dataset presents several recognition challenges due to large variations in camera motion, cluttered background, viewpoint, etc. Action categories are grouped into 25 sets, where each set consists of more than 4 action clips. Recognition performance is measured by applying a leave-one-group-out cross-validation and average accuracy over all group splits is reported. 
 
-%%%%%%%%%%%%%%%%% Figure: Effect of sampling %%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t!]
-\begin{center}
-%\fbox{\rule{0pt}{1.2in} \rule{0.9\linewidth}{0pt}}
-\includegraphics[width=0.98\linewidth]{fig/sampling.png}
-\end{center}
-\caption{Effect of feature sub-sampling when generating codebook.}
-\label{fig:feature_sampling}
-\end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Impact of contextual features}
 We conduct further experiments to measure the  contribution of our contextual features. Our Baseline corresponds to using only Foreground features for describing actions. Per-descriptor performances are compared to that established baseline. Also, we investigate the effect of combining contextual features with Foreground cues. As well, contextual features performance is evaluated under two action recognition representations \ie Bag of Features and Fisher vectors. Below, we present an analysis of obtained results.\\\\
