@@ -5,7 +5,7 @@
 %\fbox{\rule{0pt}{3in} \rule{0.9\linewidth}{0pt}}
 \includegraphics[width=0.98\linewidth]{fig/pipeline.png}
 \end{center}
-\caption{Pipeline for computing proposed surrounding cues.}
+\caption{Given a video sequence, a set of dense points trajectories are extracted. Then, a Fundamental Matrix is used to apply a camera compensation and to separate foreground and background trajectories. Each type of trajectories are encoded by different type of descriptors. Specifically, a low level global motion is used to generally describe the camera motion. Moreover, context appearance is explicitly computed on background trajectories. Traditional foreground descriptors (\eg MBH, HOF, HOG and trajectory shape) are also aggregated in actions description. Finally, this set of descriptors are encoded separately using the BoF framework.}
 \label{fig:pipeline}
 \end{figure*}
 
@@ -87,6 +87,17 @@ K(x_i,x_j)= \exp(-\sum_c {\frac{1}{2\Omega_c} D_c(x_i,x_j)}),
 \label{eq:multichannel}
 \end{equation}
 where $D_c(x_i,x_j)$ is the $\chi^2$ distance for channel $c$, and $\Omega_c$ is the average channel distance. Moreover, we implement a more robust framework (Fisher vectors) learning a codebook using a GMM. Consequently, we encode the feature vectors using the Fisher vectors. In this case, we apply three normalization strategies, L2, PW and IN as proposed in \cite{xwang2013}. Finally, normalized channels are concatenated and action models are learned within a linear SVM (LSVM). Described approaches are summarized in Table \ref{tab:frameworks}.
+
+%%%%%%%%%%%%%%%%% Figure: Effect of sampling %%%%%%%%%%%%%%%%%%%
+\begin{figure*}[t!]
+\begin{center}
+%\fbox{\rule{0pt}{1.2in} \rule{0.9\linewidth}{0pt}}
+\includegraphics[width=0.98\linewidth]{fig/sampling.png}
+\end{center}
+\caption{Effect of feature sub-sampling when generating codebook.}
+\label{fig:feature_sampling}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%% Table: Frameworks comparison %%%%%%%%%%%%%%%%%%%
