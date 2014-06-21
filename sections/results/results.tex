@@ -21,7 +21,7 @@ We conduct further experiments to measure the  contribution of our proposed came
 \textbf{Camera movement}. Experiment results evidences that action recognition is noticeably improved when a global motion is incorporated to Foreground features. Our CamMotion provides slightly lower contributions in performance than the SIFT descriptor. We observe a significantly contribution over all datasets except on HMDB51 where recognition performance decrease. This negative effect is attributed to the extensive shared shaky camera in video sequences for this dataset. This unable our CamMotion to capture discriminative cues over action categories. 
 
 %%%%%%%%%%%%% Table: Effect of selected points %%%%%%%%%%%%%
-\begin{table*}
+\begin{table*}[ht!]
 \caption{Effect of separating background feature points surrounding SIFT and CamMotion. Experimental results consistently show that SIFT exhibit better results when is capturing the surrounding appearance of actions. Conversely, CamMotion and SIFT tend to be more discriminative when computed in non-foreground feature points.}
 \begin{center}
 {
@@ -46,7 +46,7 @@ CamMotion & \checkmark & \checkmark & 12.9\% & 18.7\% & 21.8\% & 17.2\% \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%% Table: Feature analysis %%%%%%%%%%%%%%%%%%%%%
-\begin{table*}
+\begin{table*}[ht!]
 \caption{Impact of our surrounding scene appearance and camera movement in recognition performance. Bag of Features generally performs poor than Fisher vectors. Both surrounding SIFT and CamMotion show important improvements in performance when they are combined with foreground descriptors.}
 \begin{center}
 {
@@ -89,7 +89,7 @@ Foreground & SIFT & CamMotion & HMDB51 & Hollywood2 & Olympics & UCF50 \\
 We set side by side our method with recent methods that address the same application using similar representations, \ie methods that use dense trajectory points to represent video sequences \cite{wang2013, jiang2012, jain2013} in Table \ref{tab:stateofart}. We also present results for our own implementation of \cite{wang2013}, which correspond to our baseline (Foreground). The gain over the recent paper \cite{wang2013}, which reports the best performance in the literature, is as follow: \textbf{+2\%} for HMDB51, \textbf{+1.4\%} for Olympic Sports and \textbf{2.6\%} for UCF50. We also achieve a comparable performance on Hollywood2 dataset with only 0.2\% less in the mAP value. Since Human Detection (HD) is not included in our trajectory extraction stage, a more direct comparison its the non-HD approach of Wang \etal \cite{wang2013}. In that case, our method outperforms their improved trajectories in \textbf{3.3\%} for HMDB51, \textbf{1.1\%} for Hollywood2, \textbf{2.3\%} for Olympic Sports and \textbf{3.3\%} for UCF50.
 
 %%%%%%%%%%%%%% Table: State-of-the-art %%%%%%%%%%%%%%%%%%%%%%
-\begin{table*}
+\begin{table*}[ht!]
 \caption{Comparison with the state-of-the-art on challenging datasets. Our method improves reported results in the state-of-the-art for three different datasets, HMDB51, Olympic Sports and UCF50 and obtains competitive peformance in Hollywod2.}
 \begin{center}
 {
