@@ -48,7 +48,7 @@ In practice, we calculate \textbf{foreground descriptors} that consist of Trajec
 %\fbox{\rule{0pt}{3in} \rule{0.9\linewidth}{0pt}}
 \includegraphics[width=0.98\linewidth]{fig/approach.png}
 \end{center}
-\caption{Overview of our method. \textbf{Top}. Frame sequence sampled from a long jump video. Note that the video contains a translation movement following the subject. \textbf{Middle}. Camera compensation allows to perform a background-foreground segmentation. Noticeably, foreground feature points are mostly related with the subject. \textbf{Bottom}. Illustration of captured information by SIFT. In order to achieve a meaningful illustration, descriptor dimensionality is reduced to 3 dimensions and output within a color code image. As illustrated, contextual appearance is captured only from pixels related with the scenario \ie avoiding pixels related with the subject with execute the action.}
+\caption{Overview of our method. \textbf{Top}. Frame sequence sampled from a long jump video. Note that camera is panning to follow the subject. \textbf{Middle}. Camera compensation allows to perform a background-foreground segmentation. Noticeably, foreground feature points are mostly related with the subject. \textbf{Bottom}. Illustration of information captured by SIFT. In order to achieve a meaningful illustration, descriptor dimensionality is reduced to 3 dimensions to produce a color-coded image. As illustrated, contextual appearance is captured only from pixels related with the scenario \ie avoiding pixels related to the subject that executes the action.}
 \label{fig:approach}
 \end{figure*}
 
@@ -70,7 +70,7 @@ Human actions could be recognized by a set of cues. Beyond local motion and appe
 %\fbox{\rule{0pt}{3in} \rule{0.9\linewidth}{0pt}}
 \includegraphics[width=0.98\linewidth]{fig/sift.png}
 \end{center}
-\caption{Each row presents five different thumbnails taken from different videos of UCF50 dataset. \textbf{Top} row corresponds to rowing's examples. As observed all thumbnails share distinct background appearance \ie in all water is present and also in the majority there is a common landmark. In the \textbf{Middle} row, different billiard examples are depicted. Billard table and also the indoor naturalness of the action, enables context appearance to capture critical information about the action. Finally, \textbf{Bottom} row exposes examples from the drumming category. As noticed, all of the examples share a lot of visual cues that mostly are avoided if only foreground features are used.}
+\caption{Each row presents five different thumbnails taken from different videos of UCF50 dataset. \textbf{Top} row corresponds to examples of `rowing'. As observed all thumbnails share distinct background appearance \ie in all water is present and also in the majority there is a common landmark. In the \textbf{Middle} row, different billiard examples are depicted. A billard table and the indoor environment of the action, enable context appearance to capture critical information about the action. Finally, \textbf{Bottom} row shows examples from the drumming category. Note that these examples share visual cues that are largely ignored if only foreground features are used.}
 \label{fig:sift_example}
 \end{figure*}
 
